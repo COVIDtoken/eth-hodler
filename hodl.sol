@@ -193,6 +193,9 @@ contract HodlDAO {
      * It remembers the block number & amount held at the time of request.
      * Tokens cannot be moved out during the waiting period, locking the tokens until then.
      * After the waiting period finishes, the call withdrawalComplete
+     *
+     * Gas: 64490
+     *
      */
     function withdrawalInitiate() notPendingWithdrawal {
         WithdrawalStarted(msg.sender, balanceOf[msg.sender]);
@@ -205,7 +208,7 @@ contract HodlDAO {
      * A reward will be issued based on the current amount in the feePot, relative to the
      * amount that was requested for withdrawal when withdrawalInitiate() was called.
      *
-     * Gas: 17008
+     * Gas: 30946
      */
     function withdrawalComplete() returns (bool) {
         withdrawalRequest r = withdrawalRequests[msg.sender];
@@ -254,7 +257,7 @@ contract HodlDAO {
     /**
      * Quick withdrawal, needs to send ether to this function for the fee.
      *
-     * Gas use: 44129 (including call to processWithdrawal)
+     * Gas use: 35384 (including call to processWithdrawal)
     */
     function quickWithdraw() payable notPendingWithdrawal returns (bool) {
         // calculate required fee
@@ -276,7 +279,6 @@ contract HodlDAO {
 
     /**
      * do withdrawal
-     * Gas: ?
      */
     function doWithdrawal(uint256 extra) internal {
         uint256 amount = balanceOf[msg.sender];
