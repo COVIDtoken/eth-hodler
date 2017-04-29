@@ -25,8 +25,8 @@ contract HodlDAO {
     /* store the block number when a withdrawal has been requested*/
     mapping (address => withdrawalRequest) public withdrawalRequests;
     struct withdrawalRequest {
-        uint sinceBlock;
-        uint256 amount;
+    uint sinceBlock;
+    uint256 amount;
     }
 
     /**
@@ -57,10 +57,10 @@ contract HodlDAO {
      * to the fall-back function. Then tokens are burned when ether is withdrawn.
      */
     function HodlDAO(
-        uint256 initialSupply,
-        string tokenName,
-        uint8 decimalUnits,
-        string tokenSymbol
+    uint256 initialSupply,
+    string tokenName,
+    uint8 decimalUnits,
+    string tokenSymbol
     ) {
 
         balanceOf[msg.sender] = initialSupply;              // Give the creator all initial tokens
