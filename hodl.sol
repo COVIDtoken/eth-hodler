@@ -6,12 +6,12 @@ pragma solidity ^0.4.10;
 * Date: 2017
 *
 * Deploy with the following args:
-* 0, "Hodl DAO", 18, "HODL"
+* "Hodl DAO", 18, "HODL"
 *
 */
 contract HodlDAO {
     /* ERC20 Public variables of the token */
-    string public version = 'HDAO 0.3';
+    string public version = 'HDAO 0.4';
     string public name;
     string public symbol;
     uint8 public decimals;
@@ -37,6 +37,7 @@ contract HodlDAO {
     uint32 public constant blockWait = 172800; // roughly 30 days,  (2592000 / 15) - assuming block time is ~15 sec.
     //uint public constant blockWait = 8; // roughly assuming block time is ~15 sec. (uncomment when testing on testnet)
 
+    uint256 public constant initialSupply = 0;
 
     /**
      * ERC20 events these generate a public event on the blockchain that will notify clients
@@ -45,7 +46,7 @@ contract HodlDAO {
     event Approval(address indexed _owner, address indexed _spender, uint256 _value);
 
     event WithdrawalQuick(address indexed by, uint256 amount, uint256 fee); // quick withdrawal done
-    event InsufficientFee(address indexed by, uint256 feeRequired);  // not enough fee paid for quick withdrawal
+    event IncorrectFee(address indexed by, uint256 feeRequired);  // incorrect fee paid for quick withdrawal
     event WithdrawalStarted(address indexed by, uint256 amount);
     event WithdrawalDone(address indexed by, uint256 amount, uint256 reward); // amount is the amount that was used to calculate reward
     event WithdrawalPremature(address indexed by, uint blocksToWait); // Needs to wait blocksToWait before withdrawal unlocked
@@ -57,14 +58,13 @@ contract HodlDAO {
      * to the fall-back function. Then tokens are burned when ether is withdrawn.
      */
     function HodlDAO(
-    uint256 initialSupply,
     string tokenName,
     uint8 decimalUnits,
     string tokenSymbol
     ) {
 
-        balanceOf[msg.sender] = initialSupply;              // Give the creator all initial tokens
-        totalSupply = initialSupply;                        // Update total supply
+        balanceOf[msg.sender] = initialSupply;              // Give the creator all initial tokens (0 in this case)
+        totalSupply = initialSupply;                        // Update total supply (0 in this case)
         name = tokenName;                                   // Set the name for display purposes
         symbol = tokenSymbol;                               // Set the symbol for display purposes
         decimals = decimalUnits;                            // Amount of decimals for display purposes
@@ -135,7 +135,14 @@ contract HodlDAO {
      */
     function approve(address _spender, uint256 _value) notPendingWithdrawal
     returns (bool success) {
-        if (balanceOf[msg.sender] < _value) return false; // Don't allow more than they currently have (bounds check)
+
+        // The following line has been commented out after peer review #2
+        // It may be possible that Alice can pre-approve the recipient in advance, before she has a balance.
+        // eg. Alice may approve a total lifetime amount for her child to spend, but only fund her account monthly.
+        // It also allows her to have multiple equal approvees
+
+        //if (balanceOf[msg.sender] < _value) return false; // Don't allow more than they currently have (bounds check)
+
         // To change the approve amount you first have to reduce the addresses´
         //  allowance to zero by calling `approve(_spender,0)` if it is not
         //  already 0 to mitigate the race condition described here:
@@ -152,8 +159,8 @@ contract HodlDAO {
     */
     function approveAndCall(address _spender, uint256 _value, bytes _extraData) notPendingWithdrawal
     returns (bool success) {
-        allowance[msg.sender][_spender] = _value;
-        Approval(msg.sender, _spender, _value);
+
+        if (!approve(_spender, _value)) return false;
 
         //call the receiveApproval function on the contract you want to be notified. This crafts the function signature manually so one doesn't have to include a contract in here just for this.
         //receiveApproval(address _from, uint256 _value, address _tokenContract, bytes _extraData)
@@ -165,7 +172,8 @@ contract HodlDAO {
     }
 
     /**
-     * ERC20 A contract attempts to get the coins
+     * ERC20 A contract attempts to get the coins. Note: We are not allowing a transfer if
+     * either the from or to address is pending withdrawal
      * @notice send `_value` token to `_to` from `_from` on the condition it is approved by `_from`
      * @param _from The address of the sender
      * @param _to The address of the recipient
@@ -257,22 +265,19 @@ contract HodlDAO {
     /**
      * Quick withdrawal, needs to send ether to this function for the fee.
      *
-     * Gas use: 35384 (including call to processWithdrawal)
+     * Gas use: ? (including call to processWithdrawal)
     */
     function quickWithdraw() payable notPendingWithdrawal returns (bool) {
-        // calculate required fee
         uint256 amount = balanceOf[msg.sender];
         if (amount <= 0) throw;
+        // calculate required fee
         uint256 feeRequired = calculateFee(amount);
-        if (msg.value < feeRequired) {
-            InsufficientFee(msg.sender, feeRequired); // not enough fees sent
-            return false;
+        if (msg.value != feeRequired) {
+            IncorrectFee(msg.sender, feeRequired);   // notify the exact fee that needs to be sent
+            throw;
         }
-        uint256 overAmount = msg.value - feeRequired; // calculate any over-payment
-
-        feePot += msg.value - overAmount;             // add fee to the feePot, excluding any over-payment
-
-        doWithdrawal(overAmount);                     // withdraw + return any over payment
+        feePot += msg.value;                         // add fee to the feePot
+        doWithdrawal(0);                             // withdraw, 0 reward
         WithdrawalDone(msg.sender, amount, 0);
         return true;
     }
