@@ -62,3 +62,5 @@ MetaMask is currently probably the best way to use at this time as it offers the
 
 Reddit's Ethtrader member, /u/CurrencyTycoon/ - A huge fan of /user/lagofjesus who gave
 inspiration to write this contract after reading his story.
+
+Latest info on Twitter: https://twitter.com/CurrencyTycoon
