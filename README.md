@@ -1,4 +1,6 @@
-# Hodl DAO
+# Hodl DAO - www.hdao.org
+
+## A simple non-profit DApp & ERC20 token running on the Ethereum blockchain
 
 The Hodler DAO is for hodlers - a simple DAO that helps holders to hodl, nothing more.
 It's for the benefit of the community. Absolutely noting goes to the developers of this DAO, 
@@ -20,17 +22,10 @@ Should the holder want to withdraw their deposit early, they can, but
 they must pay a %1 fee. The fees will be added to a fee-pot. Holders can claim
 a chunk from the fee-pot, see the rules to find out how.
 
-### Warning
-
-Only deposit ether from an address that you control.
-Never send Ether from an exchange.
+### How to use
 
 Use as a DAPP - by using browser-wallet such as Mist Browser, Parity Browser,
 or use the MetaMask extension for Chrome.
-
-Parity Browser
-
-MetaMask
 
 MetaMask is currently probably the best way to use at this time as it offers the lest friction.
 
@@ -39,7 +34,6 @@ MetaMask is currently probably the best way to use at this time as it offers the
 * Tokens will be issued when sending ETH to the contract: TBA
 * Normal ETH Withdrawal: must wait until after 172800 blocks, which is roughly 30 days
 * Immediate ETH withdrawal: Must pay a %1 fee.
-* Should you accidentally overpay the %1 fee, overpayment (i.e the change) will be sent back
 * For all Withdrawals: tokens will be destroyed after withdrawal. Ether to be sent back to original address.
 * Tokens pending normal withdrawal will be locked until after 172800 blocks.
 * While tokens are locked, the cannot be transferred or sent.
@@ -50,17 +44,18 @@ MetaMask is currently probably the best way to use at this time as it offers the
 
 ### Security information:
 
-The Author of the contract does not have the functionality to move
-funds in the contract or issue/destroy tokens.
-The contract code is kept as simple as possible. (KISS)
-List of best practices - https://github.com/ConsenSys/smart-contract-best-practices
+- The contract went through 2 independent peer reviews, each completed by a different experienced Solidity developer
+- The Author of the contract does not have the functionality to move
+- funds in the contract or issue/destroy tokens - the DAO is completely out of the Author's control.
+- The contract code is kept as simple as possible (KISS). There's no concept of voting, splitting, curators, owners and the contract can be upgraded
+- The contract's source code has been verified through Etherscan
 
 ### Game theory
 
-If enough holders enter the contract, Price of ETH should go up, because ETH is removed from the market.
-Better than normal holding, since holders can claim from the fee-pot, after holding for the minimum time
-Should the ETH price spike to say $200 USD, immediate withdraw will still be possible.
-HODL tokens may be trade-able on an exchange, and on face value 1 HODL = 1 ETH, should an exchange add them.
+- If enough holders enter the contract, Price of ETH should go up, because ETH is removed from the market.
+- Better than normal holding, since holders can claim from the fee-pot, after holding for the minimum time
+- Should the ETH price spike to say $200 USD, immediate withdraw will still be possible.
+- HODL tokens may be trade-able on an exchange, and on face value 1 HODL = 1 ETH, should an exchange add them
 
 
 ### Contract's Author
