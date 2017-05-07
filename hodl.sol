@@ -34,8 +34,8 @@ contract HodlDAO {
     */
     uint256 public feePot;
 
-    //uint public timeWait = 30 days;
-    uint public timeWait = 1 minutes; // uncomment for TestNet
+    uint public timeWait = 30 days;
+    //uint public timeWait = 1 minutes; // uncomment for TestNet
 
     uint256 public constant initialSupply = 0;
 
