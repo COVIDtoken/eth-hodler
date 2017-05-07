@@ -207,7 +207,7 @@ contract HodlDAO {
      */
     function withdrawalInitiate() notPendingWithdrawal {
         WithdrawalStarted(msg.sender, balanceOf[msg.sender]);
-        withdrawalRequests[msg.sender] = withdrawalRequest(block.number, balanceOf[msg.sender]);
+        withdrawalRequests[msg.sender] = withdrawalRequest(now, balanceOf[msg.sender]);
     }
 
     /**
