@@ -1,4 +1,4 @@
-pragma solidity ^0.4.10;
+pragma solidity ^0.4.11;
 /**
 * Hodld DAO and ERC20 token
 * Author: CurrencyTycoon on GitHub
@@ -11,7 +11,7 @@ pragma solidity ^0.4.10;
 */
 contract HodlDAO {
     /* ERC20 Public variables of the token */
-    string public version = 'HDAO 0.4';
+    string public version = 'HDAO 0.5';
     string public name;
     string public symbol;
     uint8 public decimals;
@@ -25,7 +25,7 @@ contract HodlDAO {
     /* store the block number when a withdrawal has been requested*/
     mapping (address => withdrawalRequest) public withdrawalRequests;
     struct withdrawalRequest {
-    uint sinceBlock;
+    uint sinceTime;
     uint256 amount;
     }
 
@@ -34,8 +34,8 @@ contract HodlDAO {
     */
     uint256 public feePot;
 
-    uint32 public constant blockWait = 172800; // roughly 30 days,  (2592000 / 15) - assuming block time is ~15 sec.
-    //uint public constant blockWait = 8; // roughly assuming block time is ~15 sec. (uncomment when testing on testnet)
+    //uint public timeWait = 30 days;
+    uint public timeWait = 1 minutes; // uncomment for TestNet
 
     uint256 public constant initialSupply = 0;
 
@@ -75,7 +75,7 @@ contract HodlDAO {
      * withdrawal has been requested and is currently pending
      */
     modifier notPendingWithdrawal {
-        if (withdrawalRequests[msg.sender].sinceBlock > 0) throw;
+        if (withdrawalRequests[msg.sender].sinceTime > 0) throw;
         _;
     }
 
@@ -184,8 +184,8 @@ contract HodlDAO {
     returns (bool success) {
         // note that we can't use notPendingWithdrawal modifier here since this function does a transfer
         // on the behalf of _from
-        if (withdrawalRequests[_from].sinceBlock > 0) throw;  // can't move tokens when _from is pending withdrawal
-        if (withdrawalRequests[_to].sinceBlock > 0) throw;    // can't move tokens when _to is pending withdrawal
+        if (withdrawalRequests[_from].sinceTime > 0) throw;   // can't move tokens when _from is pending withdrawal
+        if (withdrawalRequests[_to].sinceTime > 0) throw;     // can't move tokens when _to is pending withdrawal
         if (balanceOf[_from] < _value) throw;                 // Check if the sender has enough
         if (balanceOf[_to] + _value < balanceOf[_to]) throw;  // Check for overflows
         if (_value > allowance[_from][msg.sender]) throw;     // Check allowance
@@ -220,15 +220,15 @@ contract HodlDAO {
      */
     function withdrawalComplete() returns (bool) {
         withdrawalRequest r = withdrawalRequests[msg.sender];
-        if (r.sinceBlock == 0) throw;
-        if ((r.sinceBlock + blockWait) > block.number) {
+        if (r.sinceTime == 0) throw;
+        if ((r.sinceTime + timeWait) > now) {
             // holder needs to wait some more blocks
-            WithdrawalPremature(msg.sender, r.sinceBlock + blockWait - block.number);
+            WithdrawalPremature(msg.sender, r.sinceTime + timeWait - now);
             return false;
         }
         uint256 amount = withdrawalRequests[msg.sender].amount;
         uint256 reward = calculateReward(r.amount);
-        withdrawalRequests[msg.sender].sinceBlock = 0;  // This will unlock the holders tokens
+        withdrawalRequests[msg.sender].sinceTime = 0;   // This will unlock the holders tokens
         withdrawalRequests[msg.sender].amount = 0;      // clear the amount that was requested
 
         if (reward > 0) {
