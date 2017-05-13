@@ -6,7 +6,7 @@ pragma solidity ^0.4.11;
 * Date: 2017
 *
 * Deploy with the following args:
-* "Hodl DAO", 18, "HODL"
+* "Hodl DAO", 18, "HDAO"
 *
 */
 contract HodlDAO {
