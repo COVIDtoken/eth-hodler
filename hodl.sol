@@ -11,7 +11,7 @@ pragma solidity ^0.4.11;
 */
 contract HodlDAO {
     /* ERC20 Public variables of the token */
-    string public version = 'HDAO 0.5';
+    string public constant version = 'HDAO 0.6';
     string public name;
     string public symbol;
     uint8 public decimals;
@@ -49,7 +49,7 @@ contract HodlDAO {
     event IncorrectFee(address indexed by, uint256 feeRequired);  // incorrect fee paid for quick withdrawal
     event WithdrawalStarted(address indexed by, uint256 amount);
     event WithdrawalDone(address indexed by, uint256 amount, uint256 reward); // amount is the amount that was used to calculate reward
-    event WithdrawalPremature(address indexed by, uint blocksToWait); // Needs to wait blocksToWait before withdrawal unlocked
+    event WithdrawalPremature(address indexed by, uint timeToWait); // Needs to wait timeToWait before withdrawal unlocked
     event Deposited(address indexed by, uint256 amount);
 
     /**
@@ -291,8 +291,9 @@ contract HodlDAO {
         if (amount + extra > this.balance) {
             throw;                                   // contract doesn't have enough balance
         }
+
         balanceOf[msg.sender] = 0;
-        if (totalSupply > totalSupply - amount) {
+        if (totalSupply < totalSupply - amount) {
             totalSupply = 0;                         // don't let it overflow
         } else {
             totalSupply -= amount;                   // deflate the supply!
