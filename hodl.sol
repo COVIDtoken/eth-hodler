@@ -1,17 +1,17 @@
 pragma solidity ^0.4.11;
 /**
-* Hodld DAO and ERC20 token
+* Eth Hodler (f.k.a. Hodl DAO) and ERC20 token
 * Author: CurrencyTycoon on GitHub
 * License: MIT
 * Date: 2017
 *
 * Deploy with the following args:
-* "Hodl DAO", 18, "HDAO"
+* "Eth Hodler", 18, "EHDL"
 *
 */
-contract HodlDAO {
+contract EthHodler {
     /* ERC20 Public variables of the token */
-    string public constant version = 'HDAO 0.6';
+    string public constant version = 'HDAO 0.7';
     string public name;
     string public symbol;
     uint8 public decimals;
@@ -57,7 +57,7 @@ contract HodlDAO {
      * In our case, there's no initial supply. Tokens will be created as ether is sent
      * to the fall-back function. Then tokens are burned when ether is withdrawn.
      */
-    function HodlDAO(
+    function EthHodler(
     string tokenName,
     uint8 decimalUnits,
     string tokenSymbol
@@ -88,6 +88,7 @@ contract HodlDAO {
     function transfer(address _to, uint256 _value) notPendingWithdrawal {
         if (balanceOf[msg.sender] < _value) throw;           // Check if the sender has enough
         if (balanceOf[_to] + _value < balanceOf[_to]) throw; // Check for overflows
+        if (withdrawalRequests[_to].sinceTime > 0) throw;    // can't move tokens when _to is pending withdrawal
         balanceOf[msg.sender] -= _value;                     // Subtract from the sender
         balanceOf[_to] += _value;                            // Add the same to the recipient
         Transfer(msg.sender, _to, _value);                   // Notify anyone listening that this transfer took place
@@ -232,8 +233,8 @@ contract HodlDAO {
         withdrawalRequests[msg.sender].amount = 0;      // clear the amount that was requested
 
         if (reward > 0) {
-            if (feePot - reward > feePot) {
-                feePot = 0; // overflow
+            if (feePot - reward > feePot) {             // underflow check
+                feePot = 0;
             } else {
                 feePot -= reward;
             }
@@ -250,7 +251,7 @@ contract HodlDAO {
     function calculateReward(uint256 v) constant returns (uint256) {
         uint256 reward = 0;
         if (feePot > 0) {
-            reward = feePot * v / totalSupply;
+            reward = feePot * v / totalSupply; // assuming that if feePot > 0 then also totalSupply > 0
         }
         return reward;
     }
@@ -269,7 +270,7 @@ contract HodlDAO {
     */
     function quickWithdraw() payable notPendingWithdrawal returns (bool) {
         uint256 amount = balanceOf[msg.sender];
-        if (amount <= 0) throw;
+        if (amount == 0) throw;
         // calculate required fee
         uint256 feeRequired = calculateFee(amount);
         if (msg.value != feeRequired) {
@@ -287,14 +288,14 @@ contract HodlDAO {
      */
     function doWithdrawal(uint256 extra) internal {
         uint256 amount = balanceOf[msg.sender];
-        if (amount <= 0) throw;                      // cannot withdraw
+        if (amount == 0) throw;                      // cannot withdraw
         if (amount + extra > this.balance) {
             throw;                                   // contract doesn't have enough balance
         }
 
         balanceOf[msg.sender] = 0;
         if (totalSupply < totalSupply - amount) {
-            totalSupply = 0;                         // don't let it overflow
+            throw;                                   // don't let it underflow (should not happen since amount <= totalSupply)
         } else {
             totalSupply -= amount;                   // deflate the supply!
         }
@@ -309,7 +310,7 @@ contract HodlDAO {
     */
     function () payable notPendingWithdrawal {
         uint256 amount = msg.value;         // amount that was sent
-        if (amount <= 0) throw;             // need to send some ETH
+        if (amount == 0) throw;             // need to send some ETH
         balanceOf[msg.sender] += amount;    // mint new tokens
         totalSupply += amount;              // track the supply
         Transfer(0, msg.sender, amount);    // notify of the event
