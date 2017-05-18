@@ -1,9 +1,10 @@
-# Hodl DAO - www.hdao.org
+# ETh Hodler - www.ethhodler.org
+
 
 ## A simple non-profit DApp & ERC20 token running on the Ethereum blockchain
 
-The Hodler DAO is for hodlers - a simple DAO that helps holders to hodl, nothing more.
-It's for the benefit of the community. Absolutely noting goes to the developers of this DAO, 
+The ETh Hodler is for hodlers - a simple DApp that helps holders to hodl, nothing more.
+It's for the benefit of the community. Absolutely noting goes to the developers of this DApp, 
 thus keeping things simple and small.
 
     "This is just silly. Do people lack so much willpower that they have to
@@ -14,7 +15,7 @@ thus keeping things simple and small.
 
 But wait, there are actually some benefits:
 
-Each deposit to the Hodl DAO issues you with HODL tokens. These tokens
+Each deposit to the DApp issues you with EHDL tokens. These tokens
 are then used to make a withdrawal and burned once the withdrawal is processed.
 
 A normal withdrawal would take ~30 days to process, costing only the gas fee.
@@ -46,7 +47,7 @@ MetaMask is currently probably the best way to use at this time as it offers the
 
 - The contract went through 2 independent peer reviews, each completed by a different experienced Solidity developer
 - The Author of the contract does not have the functionality to move
-- funds in the contract or issue/destroy tokens - the DAO is completely out of the Author's control.
+- funds in the contract or issue/destroy tokens - the contract is completely out of the Author's control.
 - The contract code is kept as simple as possible (KISS). There's no concept of voting, splitting, curators, owners and the contract can be upgraded
 - The contract's source code has been verified through Etherscan
 
