@@ -45,7 +45,7 @@ MetaMask is currently probably the best way to use at this time as it offers the
 
 ### Security information:
 
-- The contract went through 2 independent peer reviews, each completed by a different experienced Solidity developer
+- The contract went through 3 independent peer reviews, each completed by a different experienced Solidity developer. Additional reviews were performed by members of the /r/ethtrader community after the Author found a bug in the original Hodl Dao contract, a week after launch. See [this thread](https://www.reddit.com/r/ethtrader/comments/6b37dn/hold_dao_bug_found_with_reward_calculation_the/) for details about how the issue was handled.
 - The Author of the contract does not have the functionality to move
 - funds in the contract or issue/destroy tokens - the contract is completely out of the Author's control.
 - The contract code is kept as simple as possible (KISS). There's no concept of voting, splitting, curators, owners and the contract can be upgraded
