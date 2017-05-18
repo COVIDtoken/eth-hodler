@@ -3,6 +3,8 @@
 
 ## A simple non-profit DApp & ERC20 token running on the Ethereum blockchain
 
+![States](eth_hodler_states.svg)
+
 The ETh Hodler is for hodlers - a simple DApp that helps holders to hodl, nothing more.
 It's for the benefit of the community. Absolutely noting goes to the developers of this DApp, 
 thus keeping things simple and small.
