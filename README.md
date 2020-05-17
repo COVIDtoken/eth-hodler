@@ -61,9 +61,3 @@ MetaMask is currently probably the best way to use at this time as it offers the
 - HODL tokens may be trade-able on an exchange, and on face value 1 HODL = 1 ETH, should an exchange add them
 
 
-### Contract's Author
-
-Reddit's Ethtrader member, /u/CurrencyTycoon/ - A huge fan of /user/lagofjesus who gave
-inspiration to write this contract after reading his story.
-
-Latest info on Twitter: https://twitter.com/CurrencyTycoon
