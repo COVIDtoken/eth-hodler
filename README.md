@@ -1,23 +1,15 @@
-# ETh Hodler - www.ethhodler.org
+# COVID Hodler (forked from the original ETh Hodler by CurrencyTycoon) - www.covidtoken.org
 
 
 ## A simple non-profit DApp & ERC20 token running on the Ethereum blockchain
 
 ![States](states.png)
 
-The ETh Hodler is for hodlers - a simple DApp that helps holders to hodl, nothing more.
-It's for the benefit of the community. Absolutely noting goes to the developers of this DApp, 
-thus keeping things simple and small.
+The COVID Hodler is for hodlers - a simple DApp that helps holders to hodl and gives them bonus after the HODL period.
+It's for the benefit of the community.
 
-    "This is just silly. Do people lack so much willpower that they have to
-    handicap themselves to have no access to your ETH? What if you lock it today
-    and it shoots to $200 in a week? What then? The last thing you want is
-    have NO ACCESS to your funds, whether crypto or fiat or whatever.
-    How about, just hold. There, problem solved.". - Reddit /user/Chop13
-
-But wait, there are actually some benefits:
-
-Each deposit to the DApp issues you with EHDL tokens. These tokens
+Benefits:
+Each deposit to the DApp issues you with COVID-HODL tokens. These tokens
 are then used to make a withdrawal and burned once the withdrawal is processed.
 
 A normal withdrawal would take ~30 days to process, costing only the gas fee.
@@ -34,15 +26,15 @@ MetaMask is currently probably the best way to use at this time as it offers the
 
 ### Rules
 
-* Tokens will be issued when sending ETH to the contract: TBA
-* Normal ETH Withdrawal: must wait until after 172800 blocks, which is roughly 30 days
-* Immediate ETH withdrawal: Must pay a %1 fee.
-* For all Withdrawals: tokens will be destroyed after withdrawal. Ether to be sent back to original address.
+* HODL Tokens will be issued when sending COVID to the contract: TBA
+* Normal COVID Withdrawal: must wait until after 172800 blocks, which is roughly 30 days
+* Immediate COVID withdrawal: Must pay a %1 fee as a penalty.
+* For all Withdrawals: tokens will be destroyed after withdrawal. COVID to be sent back to original address.
 * Tokens pending normal withdrawal will be locked until after 172800 blocks.
-* While tokens are locked, the cannot be transferred or sent.
-* While tokens are locked, you cannot add more ETH to the address.
+* While tokens are locked, they cannot be transferred or sent.
+* While tokens are locked, you cannot add more COVID to the address.
 * When the wait period is over, you must complete the withdrawal manually.
-* After withdrawal to ETH, tokens are burned, thus deflating the token supply
+* After withdrawal to COVID, HODL tokens are burned, thus deflating the token supply
 * HODL tokens will be trade-able too.
 
 ### Security information:
@@ -55,9 +47,9 @@ MetaMask is currently probably the best way to use at this time as it offers the
 
 ### Game theory
 
-- If enough holders enter the contract, Price of ETH should go up, because ETH is removed from the market.
-- Better than normal holding, since holders can claim from the fee-pot, after holding for the minimum time
-- Should the ETH price spike to say $200 USD, immediate withdraw will still be possible.
-- HODL tokens may be trade-able on an exchange, and on face value 1 HODL = 1 ETH, should an exchange add them
+- If enough holders enter the contract, Price of COVID should go up, because COVID is removed from the market.
+- Better than normal holding, since holders can claim from the fee-pot, after holding for the minimum time and eventually get a bonus too.
+- Should the COVID price spike, immediate withdraw will still be possible.
+- HODL tokens may be trade-able on an exchange, and on face value 1 HODL = 1 COVID, should an exchange add them (TBA)
 
 
