@@ -3,7 +3,7 @@
 
 ## A simple non-profit DApp & ERC20 token running on the Ethereum blockchain
 
-![States](states.png)
+![States](COVID HODL states.png)
 
 The COVID Hodler is for hodlers - a simple DApp that helps holders to hodl and gives them bonus after the HODL period.
 It's for the benefit of the community.
