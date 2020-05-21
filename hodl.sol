@@ -1,15 +1,15 @@
 pragma solidity ^0.4.11;
 /**
-* Eth Hodler (f.k.a. Hodl DAO) and ERC20 token
+* COVID Hodler (f.k.a. Hodl DAO) and ERC20 token
 * Author: CurrencyTycoon on GitHub
 * License: MIT
 * Date: 2017
 *
 * Deploy with the following args:
-* "Eth Hodler", 18, "EHDL"
+* "COVID Hodler", "CHDL", 18
 *
 */
-contract EthHodler {
+contract COVIDHodler {
     /* ERC20 Public variables of the token */
     string public constant version = 'HDAO 0.7';
     string public name;
@@ -54,10 +54,10 @@ contract EthHodler {
 
     /**
      * Initializes contract with initial supply tokens to the creator of the contract
-     * In our case, there's no initial supply. Tokens will be created as ether is sent
-     * to the fall-back function. Then tokens are burned when ether is withdrawn.
+     * In our case, there's no initial supply. Tokens will be created as COVID is sent
+     * to the fall-back function. Then tokens are burned when COVID is withdrawn.
      */
-    function EthHodler(
+    function COVIDHodler(
     string tokenName,
     uint8 decimalUnits,
     string tokenSymbol
@@ -144,7 +144,7 @@ contract EthHodler {
 
         //if (balanceOf[msg.sender] < _value) return false; // Don't allow more than they currently have (bounds check)
 
-        // To change the approve amount you first have to reduce the addresses´
+        // To change the approve amount you first have to reduce the addressesÂ´
         //  allowance to zero by calling `approve(_spender,0)` if it is not
         //  already 0 to mitigate the race condition described here:
         //  https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729
@@ -212,7 +212,7 @@ contract EthHodler {
     }
 
     /**
-     * withdrawalComplete is called after the waiting period. The ether will be
+     * withdrawalComplete is called after the waiting period. The COVID will be
      * returned to the caller and the tokens will be burned.
      * A reward will be issued based on the current amount in the feePot, relative to the
      * amount that was requested for withdrawal when withdrawalInitiate() was called.
@@ -239,7 +239,7 @@ contract EthHodler {
                 feePot -= reward;
             }
         }
-        doWithdrawal(reward);                           // burn the tokens and send back the ether
+        doWithdrawal(reward);                           // burn the tokens and send back the COVID
         WithdrawalDone(msg.sender, amount, reward);
         return true;
 
@@ -264,7 +264,7 @@ contract EthHodler {
     }
 
     /**
-     * Quick withdrawal, needs to send ether to this function for the fee.
+     * Quick withdrawal, needs to send COVID to this function for the fee.
      *
      * Gas use: ? (including call to processWithdrawal)
     */
@@ -300,17 +300,17 @@ contract EthHodler {
             totalSupply -= amount;                   // deflate the supply!
         }
         Transfer(msg.sender, 0, amount);             // burn baby burn
-        if (!msg.sender.send(amount + extra)) throw; // return back the ether or rollback if failed
+        if (!msg.sender.send(amount + extra)) throw; // return back the COVID or rollback if failed
     }
 
 
     /**
-     * Fallback function when sending ether to the contract
+     * Fallback function when sending COVID to the contract
      * Gas use: 65051
     */
     function () payable notPendingWithdrawal {
         uint256 amount = msg.value;         // amount that was sent
-        if (amount == 0) throw;             // need to send some ETH
+        if (amount == 0) throw;             // need to send some COVID
         balanceOf[msg.sender] += amount;    // mint new tokens
         totalSupply += amount;              // track the supply
         Transfer(0, msg.sender, amount);    // notify of the event
